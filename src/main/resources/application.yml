@@ -1,0 +1,93 @@
+# Configuracion de la aplicacion Spring Boot
+spring:
+  application:
+    name: geomatica
+    
+  # Configuracion del servidor
+  main:
+    banner-mode: console
+    
+  # Configuracion de Jackson para JSON
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: true
+    deserialization:
+      fail-on-unknown-properties: false
+    time-zone: America/Lima
+
+# Configuracion del servidor
+server:
+  port: 8080
+  servlet:
+    context-path: /geomatica
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on-param
+    include-exception: false
+
+# Configuracion de logs
+logging:
+  level:
+    root: INFO
+    app.sencico.edu.pe.geomatica: DEBUG
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/geomatica.log
+    max-size: 10MB
+    max-history: 30
+
+# Configuracion de Swagger/OpenAPI
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    try-it-out-enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+  show-actuator: true
+
+# Configuracion personalizada de la aplicacion
+app:
+  command:
+    max-timeout: 300  # Tiempo maximo en segundos
+    default-timeout: 30  # Tiempo por defecto en segundos
+    allowed-commands:  # Lista de comandos permitidos (vacio = todos permitidos)
+      - ping
+      - ipconfig
+      - ifconfig
+      - echo
+      - dir
+      - ls
+      - pwd
+      - whoami
+      - hostname
+      - date
+      - systeminfo
+      - uname
+  security:
+    enable-command-whitelist: false  # Si es true, solo permite comandos de allowed-commands
+
+# Configuracion de CORS
+cors:
+  allowed-origins: "*"
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: "*"
+  allow-credentials: false
+  max-age: 3600
+
+# Informacion de la aplicacion
+info:
+  app:
+    name: Geomatica Command Executor
+    description: Servicio para ejecutar comandos del sistema operativo
+    version: 1.0.0
+    organization: SENCICO - area de Geomatica
